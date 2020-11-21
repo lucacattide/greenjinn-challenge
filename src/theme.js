@@ -3,20 +3,19 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 // Theme
-const contrastText = '#212121';
 const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#62af6f',
       main: '#317f43',
       dark: '#00521a',
-      contrastText: contrastText
+      contrastText: '#fff'
     },
     secondary: {
       light: '#ffff52',
       main: '#fad201',
       dark: '#c2a100',
-      contrastText: contrastText
+      contrastText: '#212121'
     }
   }
 });
