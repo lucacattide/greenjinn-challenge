@@ -1,9 +1,14 @@
 // Module Start
 // JS imports
 import {
-  Grid
+  Grid,
+  useMediaQuery
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  useTheme
+} from '@material-ui/core/styles';
+import clsx from 'clsx';
 import Layout from '../components/Layout';
 import Ticker from '../components/Ticker';
 import TradingPairs from '../components/TradingPairs';
@@ -13,6 +18,9 @@ import GJNumbersView from '../components/GJNumber/GJNumbersView';
 const useStyles = makeStyles({
   container: {
     height: '100vh'
+  },
+  margin: {
+    margin: '0 0 1em'
   }
 });
 
@@ -24,6 +32,8 @@ const useStyles = makeStyles({
  */
 export default function Index() {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     /* Layout Start */
@@ -40,7 +50,10 @@ export default function Index() {
             container
             justify="center"
             alignItems="center"
-            className={classes.container}
+            className={clsx({
+              [classes.margin]: !matches,
+              [classes.container]: matches
+            })}
           >
             <Grid item>
               <Ticker />
@@ -50,7 +63,14 @@ export default function Index() {
         {/* ATV End */}
         {/* Trading Start */}
         <Grid item xs={12} md={6}>
-          <Grid container>
+          <Grid
+            container
+            justify="center"
+            alignItems="space-between"
+            className={clsx({
+              [classes.container]: matches
+            })}
+          >
             {/* Pairs Start */}
             <Grid item xs={12}>
               <TradingPairs />
