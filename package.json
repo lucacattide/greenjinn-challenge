@@ -1,0 +1,42 @@
+{
+  "name": "greenjinn-challenge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GreenJinn coding challenge",
+  "bugs": {
+    "url": "",
+    "email": "info@lucacattide.dev"
+  },
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "next": "10.0.2",
+    "prop-types": "^15.7.2",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "plugins": [
+    "react-hooks"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "greenjinn",
+    "coding",
+    "challenge",
+    "luca",
+    "cattide"
+  ],
+  "author": "Luca Cattide - Senior Frontend Developer <info@lucacattide.dev> | LC (https://lucacattide.dev)"
+}
