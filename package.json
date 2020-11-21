@@ -4,7 +4,7 @@
   "private": true,
   "description": "GreenJinn coding challenge",
   "bugs": {
-    "url": "",
+    "url": "https://github.com/lucacattide/greenjinn-challenge/issues",
     "email": "info@lucacattide.dev"
   },
   "license": "UNLICENSED",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/lucacattide/greenjinn-challenge"
   },
   "keywords": [
     "greenjinn",
