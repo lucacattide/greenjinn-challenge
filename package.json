@@ -15,10 +15,15 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "clsx": "^1.1.1",
+    "moment": "^2.29.1",
     "next": "10.0.2",
     "prop-types": "^15.7.2",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "sass": "^1.29.0",
+    "swiper": "^6.3.5"
   },
   "plugins": [
     "react-hooks"
@@ -38,5 +43,8 @@
     "luca",
     "cattide"
   ],
-  "author": "Luca Cattide - Senior Frontend Developer <info@lucacattide.dev> | LC (https://lucacattide.dev)"
+  "author": "Luca Cattide - Senior Frontend Developer <info@lucacattide.dev> | LC (https://lucacattide.dev)",
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.2.0"
+  }
 }
