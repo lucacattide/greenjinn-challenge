@@ -2,6 +2,7 @@
 // JS imports
 import PropTypes from 'prop-types';
 import {
+  Slide,
   Card,
   CardHeader,
   CardContent,
@@ -29,29 +30,42 @@ const GJNumbersView = (props) => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
-      <CardHeader title={title} />
-      {/* Content Start */}
-      <CardContent>
-        <Grid container justify="center">
-          {Object.keys(numbers).map((key, i) => (
-            <Grid
-              item
-              className={classes.number}
-              xs={12}
-              sm={4}
-              key={`${key}-${i}`}
-            >
-              <GJNumberLabel
-                label={key}
-                value={Number(numbers[key]).toFixed(2)}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </CardContent>
-      {/* Content End */}
-    </Card>
+    <Slide
+      direction="up"
+      in={true}
+      mountOnEnter
+      unmountOnExit
+      timeout={{
+        enter: 300,
+        exit: 250
+      }}
+    >
+      <Card className={classes.card}>
+        <CardHeader title={title} />
+        {/* Content Start */}
+        <CardContent>
+          <Grid container justify="center">
+            {Object.keys(numbers).map((key, i) => (
+              <Grid
+                item
+                className={classes.number}
+                xs={12}
+                sm={4}
+                md={6}
+                lg={4}
+                key={`${key}-${i}`}
+              >
+                <GJNumberLabel
+                  label={key}
+                  value={numbers[key]}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
+        {/* Content End */}
+      </Card>
+    </Slide>
   );
 };
 
