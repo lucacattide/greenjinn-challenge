@@ -30,7 +30,10 @@ const useStyles = makeStyles({
  * @export
  * @returns
  */
-export default function Index({averageTickerValues}) {
+export default function Index({
+  averageTickerValues,
+  tradingPairs
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
@@ -73,7 +76,7 @@ export default function Index({averageTickerValues}) {
           >
             {/* Pairs Start */}
             <Grid item xs={12}>
-              <TradingPairs />
+              <TradingPairs tradingPairs={tradingPairs} />
             </Grid>
             {/* Pairs End */}
             {/* Values Start */}
@@ -119,13 +122,15 @@ export async function getServerSideProps(context) {
   const responseTicker = await fetch('https://www.bitstamp.net/api/v2/ticker/btcusd');
   const responseCurrency = await fetch('https://api.coinbase.com/v2/exchange-rates?currency=BTC');
   const responseSymbols = await fetch('https://api-pub.bitfinex.com/v2/tickers?symbols=tBTCUSD');
+  const tradingPairs = await fetch('https://www.bitstamp.net/api/v2/trading-pairs-info');
   const dataTicker = await responseTicker.json();
   const dataCurrency = await responseCurrency.json();
   const dataSymbols = await responseSymbols.json();
+  const dataTradingPairs = await tradingPairs.json();
   let averageTickerValues = 0;
 
   // Data check
-  if (!dataTicker || ! dataCurrency || !dataSymbols) {
+  if (!dataTicker || ! dataCurrency || !dataSymbols || !dataTradingPairs) {
     return {
       notFound: true
     }
@@ -157,7 +162,8 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      averageTickerValues
+      averageTickerValues,
+      tradingPairs: dataTradingPairs
     }
   };
 }
