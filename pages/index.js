@@ -30,7 +30,7 @@ const useStyles = makeStyles({
  * @export
  * @returns
  */
-export default function Index() {
+export default function Index({averageTickerValues}) {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
@@ -56,7 +56,7 @@ export default function Index() {
             })}
           >
             <Grid item>
-              <Ticker />
+              <Ticker atv={averageTickerValues} />
             </Grid>
           </Grid>
         </Grid>
@@ -106,4 +106,58 @@ export default function Index() {
     </Layout>
     /* Layout End */
   );
+}
+
+/**
+ * @description SSR Data Fetching
+ * @author Luca Cattide
+ * @export
+ * @param {object} context Page context
+ * @returns
+ */
+export async function getServerSideProps(context) {
+  const responseTicker = await fetch('https://www.bitstamp.net/api/v2/ticker/btcusd');
+  const responseCurrency = await fetch('https://api.coinbase.com/v2/exchange-rates?currency=BTC');
+  const responseSymbols = await fetch('https://api-pub.bitfinex.com/v2/tickers?symbols=tBTCUSD');
+  const dataTicker = await responseTicker.json();
+  const dataCurrency = await responseCurrency.json();
+  const dataSymbols = await responseSymbols.json();
+  let averageTickerValues = 0;
+
+  // Data check
+  if (!dataTicker || ! dataCurrency || !dataSymbols) {
+    return {
+      notFound: true
+    }
+  }
+
+  /**
+   * Average Ticker Values calculation
+   * Assuming that basing it on a specific rate is not required
+   * the average is calculated on all the rates - Not sure if this is the right approach.
+   * Params:
+   * - Ticker: last
+   * - Currency: rates (all)
+   * - Symbols: all
+   * Calculation
+   * AVG = last BTC price + total currency rates + total symbol values /
+   * 1 (BTC price) + N currency rates + N symbol values
+   */
+  dataSymbols[0].splice(0, 1);
+
+  averageTickerValues = (
+    Number(dataTicker.last) +
+    Object.values(dataCurrency.data.rates).reduce((total, value) => Number(total) + Number(value)) +
+    dataSymbols[0].reduce((total, value) => total + value)
+  ) / (
+    1 +
+    Object.keys(dataCurrency.data.rates).length +
+    dataSymbols[0].length
+  );
+
+  return {
+    props: {
+      averageTickerValues
+    }
+  };
 }

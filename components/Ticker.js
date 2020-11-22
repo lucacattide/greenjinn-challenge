@@ -1,5 +1,6 @@
 // Module Start
 // JS imports
+import PropTypes from 'prop-types';
 import {
   Slide,
   Card,
@@ -28,7 +29,8 @@ const useStyles = makeStyles({
 });
 
 // Ticker
-const Ticker = () => {
+const Ticker = (props) => {
+  const {atv} = props;
   const classes = useStyles();
 
   return (
@@ -45,7 +47,7 @@ const Ticker = () => {
       <Card className={classes.card}>
         <CardHeader subheader="Average Ticker Values" />
         <CardContent>
-          <Typography variant="h4">฿ 100</Typography>
+          <Typography variant="h4">฿ {atv.toFixed(2)}</Typography>
           <Typography
             variant="body2"
             className={
@@ -62,6 +64,11 @@ const Ticker = () => {
       </Card>
     </Slide>
   );
+};
+
+// Properties Validation
+Ticker.propTypes = {
+  atv: PropTypes.number.isRequired
 };
 
 // Module export
