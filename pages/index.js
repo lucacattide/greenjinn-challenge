@@ -43,22 +43,31 @@ export default function Index({
     info: tradingPairs[0],
     values: initialPair
   });
+  const [loading, setLoading] = useState(false);
   const handleSelectedPair = async (pair) => {
-    // This is a universal proxy to evade localhost CORS problems
-    // Not the best choice in production but definitely quickly for this challenge
-    const responsePair = await fetch('//cors-anywhere.herokuapp.com/'+
-    `https://www.bitstamp.net/api/v2/ticker/${pair.url_symbol}`);
-    const dataPair = await responsePair.json();
+    setLoading(true);
 
-    // Data check
-    if (!dataPair) {
-      return `Trading pair ${pair.name} not found.`;
+    try {
+      // This is a universal proxy to evade localhost CORS problems
+      // Not the best choice in production but definitely the quickest for this challenge
+      const responsePair = await fetch('//cors-anywhere.herokuapp.com/'+
+      `https://www.bitstamp.net/api/v2/ticker/${pair.url_symbol}`);
+      const dataPair = await responsePair.json();
+
+      // Data check
+      if (!dataPair) {
+        return `Trading pair ${pair.name} not found.`;
+      }
+
+      setPair({
+        info: pair,
+        values: dataPair
+      });
+    } catch(error) {
+      return error;
     }
 
-    setPair({
-      info: pair,
-      values: dataPair
-    });
+    setLoading(false);
   };
 
   return (
@@ -114,7 +123,11 @@ export default function Index({
                 justify="center"
               >
                 <Grid item xs={12}>
-                  <GJNumbersView title={pair.info.description} numbers={pair.values} />
+                  <GJNumbersView
+                    title={pair.info.description}
+                    numbers={pair.values}
+                    loading={loading}
+                  />
                 </Grid>
               </Grid>
             </Grid>
