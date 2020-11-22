@@ -1,5 +1,6 @@
 // Module Start
 // JS imports
+import React, {useState} from 'react';
 import {
   Grid,
   useMediaQuery
@@ -32,11 +33,33 @@ const useStyles = makeStyles({
  */
 export default function Index({
   averageTickerValues,
-  tradingPairs
+  tradingPairs,
+  initialPair
 }) {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const [pair, setPair] = useState({
+    info: tradingPairs[0],
+    values: initialPair
+  });
+  const handleSelectedPair = async (pair) => {
+    // This is a universal proxy to evade localhost CORS problems
+    // Not the best choice in production but definitely quickly for this challenge
+    const responsePair = await fetch('//cors-anywhere.herokuapp.com/'+
+    `https://www.bitstamp.net/api/v2/ticker/${pair.url_symbol}`);
+    const dataPair = await responsePair.json();
+
+    // Data check
+    if (!dataPair) {
+      return `Trading pair ${pair.name} not found.`;
+    }
+
+    setPair({
+      info: pair,
+      values: dataPair
+    });
+  };
 
   return (
     /* Layout Start */
@@ -69,14 +92,18 @@ export default function Index({
           <Grid
             container
             justify="center"
-            alignItems="space-between"
+            alignItems="center"
             className={clsx({
               [classes.container]: matches
             })}
           >
             {/* Pairs Start */}
             <Grid item xs={12}>
-              <TradingPairs tradingPairs={tradingPairs} />
+              <TradingPairs
+                tradingPairs={tradingPairs}
+                pair={pair}
+                selectedPair={handleSelectedPair}
+              />
             </Grid>
             {/* Pairs End */}
             {/* Values Start */}
@@ -87,17 +114,7 @@ export default function Index({
                 justify="center"
               >
                 <Grid item xs={12}>
-                  <GJNumbersView title="Lorem ipsum" numbers={{
-                    "high": "18977.00",
-                    "last": "18656.32",
-                    "timestamp": "1605952306",
-                    "bid": "18656.32",
-                    "vwap": "18593.19",
-                    "volume": "9121.05925756",
-                    "low": "18150.00",
-                    "ask": "18664.12",
-                    "open": "18685.08"
-                  }} />
+                  <GJNumbersView title={pair.info.description} numbers={pair.values} />
                 </Grid>
               </Grid>
             </Grid>
@@ -122,11 +139,11 @@ export async function getServerSideProps(context) {
   const responseTicker = await fetch('https://www.bitstamp.net/api/v2/ticker/btcusd');
   const responseCurrency = await fetch('https://api.coinbase.com/v2/exchange-rates?currency=BTC');
   const responseSymbols = await fetch('https://api-pub.bitfinex.com/v2/tickers?symbols=tBTCUSD');
-  const tradingPairs = await fetch('https://www.bitstamp.net/api/v2/trading-pairs-info');
+  const responseTradingPairs = await fetch('https://www.bitstamp.net/api/v2/trading-pairs-info');
   const dataTicker = await responseTicker.json();
   const dataCurrency = await responseCurrency.json();
   const dataSymbols = await responseSymbols.json();
-  const dataTradingPairs = await tradingPairs.json();
+  const dataTradingPairs = await responseTradingPairs.json();
   let averageTickerValues = 0;
 
   // Data check
@@ -136,10 +153,22 @@ export async function getServerSideProps(context) {
     }
   }
 
+  // It executes only if there are valid trading pairs data
+  const responseInitialPair = await fetch(`https://www.bitstamp.net/api/v2/ticker/${dataTradingPairs[0].url_symbol}`);
+  const dataInitialPair = await responseInitialPair.json();
+
+  // Data check
+  if (!dataInitialPair) {
+    return {
+      notFound: true
+    }
+  }
+
   /**
    * Average Ticker Values calculation
    * Assuming that basing it on a specific rate is not required
-   * the average is calculated on all the rates - Not sure if this is the right approach.
+   * the average is calculated on all the rates
+   * - Not sure if this is the right approach.
    * Params:
    * - Ticker: last
    * - Currency: rates (all)
@@ -152,7 +181,8 @@ export async function getServerSideProps(context) {
 
   averageTickerValues = (
     Number(dataTicker.last) +
-    Object.values(dataCurrency.data.rates).reduce((total, value) => Number(total) + Number(value)) +
+    Object.values(dataCurrency.data.rates)
+    .reduce((total, value) => Number(total) + Number(value)) +
     dataSymbols[0].reduce((total, value) => total + value)
   ) / (
     1 +
@@ -163,7 +193,8 @@ export async function getServerSideProps(context) {
   return {
     props: {
       averageTickerValues,
-      tradingPairs: dataTradingPairs
+      tradingPairs: dataTradingPairs,
+      initialPair: dataInitialPair
     }
   };
 }

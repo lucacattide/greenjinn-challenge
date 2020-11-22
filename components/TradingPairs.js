@@ -30,8 +30,12 @@ SwiperCore.use([
 
 // Trading Pairs
 const TradingPairs = (props) => {
-  const {tradingPairs} = props;
+  const {tradingPairs, pair, selectedPair} = props;
   const classes = useStyles();
+  // Pair handler
+  const handlePair = (pair) => {
+    selectedPair(pair);
+  };
 
   return (
     <Slide
@@ -70,7 +74,11 @@ const TradingPairs = (props) => {
                     <Button
                       className={classes.button}
                       variant="contained"
-                      color="primary"
+                      color={tradingPair.name === pair.info.name ?
+                        'secondary':
+                        'primary'
+                      }
+                      onClick={() => handlePair(tradingPair)}
                     >
                       {tradingPair.name}
                     </Button>
@@ -87,7 +95,9 @@ const TradingPairs = (props) => {
 
 // Properties Validation
 TradingPairs.propTypes = {
-  tradingPairs: PropTypes.array.isRequired
+  tradingPairs: PropTypes.array.isRequired,
+  pair: PropTypes.object.isRequired,
+  selectedPair: PropTypes.func.isRequired
 };
 
 // Module export
