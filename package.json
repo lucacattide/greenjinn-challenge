@@ -11,7 +11,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -46,6 +47,17 @@
   ],
   "author": "Luca Cattide - Senior Frontend Developer <info@lucacattide.dev> | LC (https://lucacattide.dev)",
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "@babel/core": "^7.12.7",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "@types/jest": "^26.0.15",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.3.1",
+    "babel-jest": "^26.6.3",
+    "enzyme": "^3.11.0",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^26.6.3",
+    "jest-fetch-mock": "^3.0.3",
+    "react-test-renderer": "^17.0.1"
   }
 }

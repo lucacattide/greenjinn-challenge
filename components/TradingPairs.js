@@ -72,6 +72,7 @@ const TradingPairs = (props) => {
                 <SwiperSlide key={tradingPair.url_symbol}>
                   <Grid item xs={3}>
                     <Button
+                      data-button='pari-button'
                       className={classes.button}
                       variant="contained"
                       color={tradingPair.name === pair.info.name ?
