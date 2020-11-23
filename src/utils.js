@@ -25,22 +25,6 @@ const fakeState = {
   info: fakePairs[0],
   values: fakePair
 };
-// Setup
-const setup = (container) => beforeEach(() => {
-  // Setup a DOM element as a render target
-  container = document.createElement('div');
-
-  document.body.appendChild(container);
-});
-// Teardown
-const teardown = (container) => afterEach(() => {
-  // Cleanup on exiting
-  unmountComponentAtNode(container);
-
-  container.remove();
-
-  container = null;
-});
 // Data Fetch Mock
 const dataFetch = async (path) => {
   return fetch(path).then(res => res.json());
@@ -51,8 +35,6 @@ export {
   fakePairs,
   fakePair,
   fakeState,
-  setup,
-  teardown,
   dataFetch
 };
 // Module End
