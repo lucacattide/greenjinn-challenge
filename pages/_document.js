@@ -8,17 +8,7 @@ import Document, {
   NextScript
 } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
-import crypto from 'crypto';
 import theme from '../src/theme';
-
-// CSP security hash
-const cspHashOf = (text) => {
-  const hash = crypto.createHash('sha256');
-
-  hash.update(text);
-
-  return `'sha256-${hash.digest('base64')}'`;
-};
 
 /**
  * @description Document - Override
@@ -35,7 +25,7 @@ export default class GreenJinnDocument extends Document {
    * @memberof GreenJinnDocument
    */
   render() {
-    const csp = `default-src 'none'; prefetch-src 'self'; script-src 'self' www.google.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' fonts.googleapis.com 'unsafe-inline'; connect-src 'self' cors-anywhere.herokuapp.com www.bitstamp.net www.google.com localhost; font-src 'self' fonts.googleapis.com fonts.gstatic.com data:; img-src 'self' data: localhost; manifest-src 'self' ${cspHashOf(NextScript.getInlineScriptSource(this.props))}`;
+    const csp = `default-src 'none'; prefetch-src 'self'; script-src 'self' www.google.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' fonts.googleapis.com 'unsafe-inline'; connect-src 'self' cors-anywhere.herokuapp.com www.bitstamp.net www.google.com localhost; font-src 'self' fonts.googleapis.com fonts.gstatic.com data:; img-src 'self' data: localhost;`;
 
     return (
       <Html lang="en" prefix="og: http://ogp.me/ns#">
