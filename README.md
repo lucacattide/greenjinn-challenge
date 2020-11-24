@@ -50,7 +50,7 @@ Delivery
   - Content Security Policies
   - Search Engine Optimization
   - Testing
-  - Continous Integration
+  - Continous Integration/Delivery
 - NextJS as been selected as React framework for this challenge to get instant benefits of some features and speed up the process - such as SSR.
 - The UI is managed with [Material-UI](https://github.com/mui-org/material-ui) in order to keep some visual consistency, following the Material Design principles. The provided mockup it has been strictly followed in layout terms. For this reason, some visual choices could seem 'unusual' for the general rendering. The template has been improved with an app Toolbar (Header) in the ```Layout``` component and the data is rendered inside proper Material Cards.
 - Mobile and desktop resolutions are supported in the main popular breakpoints ([Bootstrap 4](https://bootstrapcreative.com/bootstrap-4-media-queries/) referenced)
@@ -71,6 +71,7 @@ Delivery
 - CSP are implemented for the project environment security
 - Unit Testing of the main specifications with _Jest_ and _Enzyme_
 - CI managed via GitHub Actions with a pipeline of 2 workflows: _Tests_ and _Node CI_ which respectively check if all tests pass and if the build runs correclty. Additional 2 Vercel hidden workflows runs on ```master``` branch to check build compatibility and continous delivery process
+- CD managed and automated by Vercel
 
 More details are indicated inside the code comments - where needed.
 For any further in-depth consideration, please contact me on info@lucacattide.dev or feel free to open an issue.
