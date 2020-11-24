@@ -45,11 +45,13 @@ Delivery
 
 - Features:
   - Responsiveness
-  - SSR
+  - Server-Side Rendering
   - State management
-  - CSP
-  - SEO
-- NextJS as been selected as React framework for this challenge to get instant benefits of some features and speed up the process - such as Server-Side Rendering.
+  - Content Security Policies
+  - Search Engine Optimization
+  - Testing
+  - Continous Integration
+- NextJS as been selected as React framework for this challenge to get instant benefits of some features and speed up the process - such as SSR.
 - The UI is managed with [Material-UI](https://github.com/mui-org/material-ui) in order to keep some visual consistency, following the Material Design principles. The provided mockup it has been strictly followed in layout terms. For this reason, some visual choices could seem 'unusual' for the general rendering. The template has been improved with an app Toolbar (Header) in the ```Layout``` component and the data is rendered inside proper Material Cards.
 - Mobile and desktop resolutions are supported in the main popular breakpoints ([Bootstrap 4](https://bootstrapcreative.com/bootstrap-4-media-queries/) referenced)
 - The starting data (ATV, selected trading pair) are fetched from the suggested APIs as the rest. The current selected pair is the first of the returned list
@@ -66,8 +68,9 @@ Delivery
 - Trading pairs buttons are managed with a proper ```TradingPairs``` component, which wraps them inside a carousel, in order to preserve the general layout with an animated pagination due to their quantity
 - ```GJNumberViews``` takes an unrequested additional ```prop``` __loading__ just for UX purposes - It manages the UI placeholder state during the selected pair ```async``` fetching
 - The project is optimized with proper meta-tags for SEO - OpenGraph supported - HTTP/2 best-practices and enhanced with structured data
-- Content Security Policies are implemented for the project environment security
+- CSP are implemented for the project environment security
 - Unit Testing of the main specifications with _Jest_ and _Enzyme_
+- CI managed via GitHub Actions with a pipeline of 2 workflows: _Tests_ and _Node CI_ which respectively check if all tests pass and if the build runs correclty. Additional 2 Vercel hidden workflows runs on ```master``` branch to check build compatibility and continous delivery process
 
 More details are indicated inside the code comments - where needed.
 For any further in-depth consideration, please contact me on info@lucacattide.dev or feel free to open an issue.
@@ -85,6 +88,20 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Testing
+
+To run the tests:
+
+```
+npm run test
+```
+
+To run the tests with code coverage report:
+
+```
+jest --coverage
+```
 
 ## Deployment
 
